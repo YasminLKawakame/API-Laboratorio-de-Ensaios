@@ -1,7 +1,7 @@
-import conexao from "../database/conexao.js"
+import conexao from "../config/conexao.js"
 
-export async function cadastrar(analista) {
-    const sql = "INSERT INTO analista (nome, registro, especialidade) VALUES (?,?)";
+export async function cadastrarAnalista(analista) {
+    const sql = "INSERT INTO analista (nome, registro, especialidade) VALUES (?, ?, ?)";
     const [resultado] = await conexao.execute(sql, [
         analista.nome,
         analista.registro,
@@ -12,7 +12,7 @@ export async function cadastrar(analista) {
 
 }
 
-export async function listar() {
+export async function listarAnalistas() {
     const sql = "SELECT * FROM analista";
     const [resultado] = await conexao.execute(sql);
 
@@ -20,7 +20,7 @@ export async function listar() {
 
 }
 
-export async function buscarPorId() {
+export async function buscarAnalistaPorID(id) {
     const sql = "SELECT * FROM analista WHERE id_analista = ?";
     const [resultado] = await conexao.execute(sql,[id]);
 
@@ -28,8 +28,8 @@ export async function buscarPorId() {
 
 }
 
-export async function atualizar(id, analista) {
-    const sql = "UPDATE analista SET nome = ?, resgitro = ?, especialidade = ?";
+export async function atualizarAnalista(id, analista) {
+    const sql = "UPDATE analista SET nome = ?, registro = ?, especialidade = ?";
     const [resultado] = await conexao.execute(sql, [
         analista.nome,
         analista.registro,
@@ -37,5 +37,11 @@ export async function atualizar(id, analista) {
         id
     ])
 
+    return resultado.affectedRows;
+}
+
+export async function excluirAnalista(id) {
+    const sql = "DELETE FROM analista WHERE id_analista = ?";
+    const [resultado] = await conexao.execute(sql, [id]);
     return resultado.affectedRows;
 }
